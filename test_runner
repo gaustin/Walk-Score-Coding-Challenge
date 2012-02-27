@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd test
+python test_digraph.py
+
