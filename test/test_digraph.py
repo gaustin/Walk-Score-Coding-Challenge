@@ -76,7 +76,7 @@ class DigraphTests(unittest.TestCase):
         self.assertTrue(compressedGraph.has_arc("E", "F"))
         self.assertTrue(compressedGraph.has_arc("E", "G"))
         self.assertTrue(compressedGraph.has_arc("G", "H"))
-        self.assertTrue(compressedGraph.has_arc("G", "A"))
+        self.assertTrue(compressedGraph.has_arc("G", "B"))
 
         self.assertEqual(6, compressedGraph.nodeCount())
 

@@ -17,21 +17,38 @@ class Digraph:
         # Delete the arc
         self.graph[fromNode].discard(toNode)
 
+    def removeNode(self, node, removeInLinks=True):
+      if self.graph.has_key(node):
+        del self.graph[node]
+
     def addOrUpdateNode(self, node, outArcs=None):
         if outArcs is None:
             outArcs = set()
 
+        if self.graph.has_key(node):
+            outArcs = outArcs.union(self.graph[node])
+
         self.graph[node] = outArcs
 
     def compress(self):
-        # Non-destructive 
+        # Non-destructive
         compressedGraph = Digraph()
+        prunedNodes = set()
         for node, outArcs in self.graph.items():
             in_arcs = self.inArcs(node)
             if len(outArcs) == 1 and len(in_arcs) == 1:
-                compressedGraph.addArc(in_arcs.pop(), outArcs.copy().pop()) 
+                prunedNodes.add(node)
+                fromArc = in_arcs.pop()
+                toArc = outArcs.copy().pop()
+                compressedGraph.addArc(fromArc, toArc) 
             else:
-                compressedGraph.addOrUpdateNode(node, outArcs)
+                arcs = outArcs.difference(prunedNodes)
+                compressedGraph.addOrUpdateNode(node, arcs)
+
+        for node, arcs in compressedGraph.graph.items():
+            arcs.difference_update(prunedNodes)
+            for node in prunedNodes:
+                compressedGraph.removeNode(node, True)
 
         return compressedGraph
 

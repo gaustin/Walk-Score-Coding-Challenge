@@ -1,10 +1,9 @@
 Pending:
-Can sublimate nodes.
-Read data from stdin.
-Sublimate nodes with exactly 1 in-node and exactly 1 out-node.
-Write minimized graph to stdout.
 
 Complete:
+Read data from stdin.
+Write minimized graph to stdout.
+Sublimate/compress nodes with exactly 1 in-node and exactly 1 out-node.
 Can add edges to graph.
 Can delete edges from graph.
 Graph nodes include the set of nodes to which they point.
