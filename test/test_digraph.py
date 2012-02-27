@@ -27,15 +27,15 @@ class DigraphTests(unittest.TestCase):
         a = "A"
         b = "Z"
         self.graph.addEdge(a, b)
-        self.assertTrue(self.graph.adjacent(a, b))
+        self.assertTrue(self.graph.has_arc(a, b))
 
     def testRemoveAnEdge(self):
         self.graph.removeEdge("A", "D")
 
-        self.assertTrue(self.graph.adjacent("D", "C"))
-        self.assertTrue(self.graph.adjacent("A", "B"))
-        self.assertTrue(self.graph.adjacent("B", "C"))
-        self.assertFalse(self.graph.adjacent("A", "D"))
+        self.assertTrue(self.graph.has_arc("D", "C"))
+        self.assertTrue(self.graph.has_arc("A", "B"))
+        self.assertTrue(self.graph.has_arc("B", "C"))
+        self.assertFalse(self.graph.has_arc("A", "D"))
     
     def testRemoveNonexistentEdge(self):
         self.assertRaises(NodeError, self.graph.removeEdge, "A", "Z")

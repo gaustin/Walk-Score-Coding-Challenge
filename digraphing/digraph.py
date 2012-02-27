@@ -16,7 +16,9 @@ class Digraph:
         
         # Delete the node
         self.graph[fromNode].discard(toNode)
-        
+
+    def has_arc(self, fromNode, toNode):
+        return toNode in self.graph[fromNode]
 
     def adjacent(self, aNode, bNode):
         if bNode in self.graph[aNode] or aNode in self.graph[bNode]:
