@@ -45,6 +45,8 @@ class Digraph:
                 arcs = outArcs.difference(prunedNodes)
                 compressedGraph.addOrUpdateNode(node, arcs)
 
+        # Remove all of the pruned nodes from outlinks in one go
+        # TODO: Would it be better to do this when adding arcs/nodes
         for node, arcs in compressedGraph.graph.items():
             arcs.difference_update(prunedNodes)
             for node in prunedNodes:
