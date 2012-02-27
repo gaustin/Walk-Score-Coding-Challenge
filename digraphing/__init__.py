@@ -1,1 +1,1 @@
-from .digraph import Digraph
+from .digraph import Digraph, NodeError
