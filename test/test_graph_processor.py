@@ -2,6 +2,7 @@ import test_helper
 import unittest
 
 class GraphProcessor(test_helper.BaseTest):
+class GraphProcessorTests(test_helper.BaseTest):
     def testCompressDummyGraph(self):
         compressedGraph = self.graph.compress()
 
@@ -19,6 +20,20 @@ class GraphProcessor(test_helper.BaseTest):
         self.assertTrue(compressedGraph.has_arc("G", "B"))
 
         self.assertEqual(6, compressedGraph.nodeCount())
+  
+    def testCompressBetterGraph(self):
+        betterGraph = test_helper.better_graph()
+        betterGraph.compressInPlace()
+        
+        self.assertTrue(betterGraph.has_arc("B", "D"))
+        self.assertTrue(betterGraph.has_arc("D", "E"))
+        self.assertTrue(betterGraph.has_arc("E", "F"))
+        self.assertTrue(betterGraph.has_arc("E", "G"))
+        self.assertTrue(betterGraph.has_arc("G", "H"))
+        self.assertTrue(betterGraph.has_arc("G", "B"))
+
+        self.assertEqual(6, betterGraph.nodeCount())
+
 
 if __name__ == "__main__":
     unittest.main()

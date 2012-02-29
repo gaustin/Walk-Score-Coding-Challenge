@@ -17,9 +17,9 @@ class Digraph:
         # Delete the arc
         self.graph[fromNode].discard(toNode)
 
-    def removeNode(self, node, removeInLinks=True):
-      if self.graph.has_key(node):
-        del self.graph[node]
+    def removeNode(self, node, cascade=False):
+        if self.graph.has_key(node):
+            del self.graph[node]
 
     def addOrUpdateNode(self, node, outArcs=None):
         if outArcs is None:
@@ -29,6 +29,29 @@ class Digraph:
             outArcs = outArcs.union(self.graph[node])
 
         self.graph[node] = outArcs
+
+    def removeListOfNodes(self, listOfNodes=None):
+        if listOfNodes is None:
+            listOfNodes = list()
+
+        for node in listOfNodes:
+            self.removeNode(node)
+
+        for node, outArcs in self.graph.items():
+            outArcs.difference_update(listOfNodes)
+ 
+    def compressInPlace(self):
+        prunedNodes = set()
+        for node, outArcs in self.graph.items():
+            print self.graph
+            in_arcs = self.inArcs(node)
+            if len(outArcs) == 1 and len(in_arcs) == 1:
+                fromArc = in_arcs.pop()
+                toArc = outArcs.copy().pop()
+                self.addArc(fromArc, toArc)
+                prunedNodes.add(node)
+
+        self.removeListOfNodes(prunedNodes)
 
     def compress(self):
         # Non-destructive
@@ -45,12 +68,8 @@ class Digraph:
                 arcs = outArcs.difference(prunedNodes)
                 compressedGraph.addOrUpdateNode(node, arcs)
 
-        # Remove all of the pruned nodes from outlinks in one go
-        # TODO: Would it be better to do this when adding arcs/nodes
-        for node, arcs in compressedGraph.graph.items():
-            arcs.difference_update(prunedNodes)
-            for node in prunedNodes:
-                compressedGraph.removeNode(node, True)
+        # Remove all of the pruned nodes
+        compressedGraph.removeListOfNodes(prunedNodes) 
 
         return compressedGraph
 
@@ -64,6 +83,8 @@ class Digraph:
         return in_arcs
 
     def has_arc(self, fromNode, toNode):
+        if not self.graph.has_key(fromNode):
+            return False
         return toNode in self.graph[fromNode]
 
     def adjacent(self, aNode, bNode):
