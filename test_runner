@@ -2,4 +2,5 @@
 
 cd test
 python test_digraph.py
+python test_graph_processor.py
 
