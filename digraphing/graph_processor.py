@@ -11,7 +11,7 @@ class GraphProcessor:
         for node, outArcs in graph.items():
             outArcs.difference_update(listOfNodes)
  
-    def compressInPlace(self, graph):
+    def minimizeInPlace(self, graph):
         nodesToPrune = dict() 
         for node, outArcs in graph.items():
             inArcs = graph.inArcs(node)

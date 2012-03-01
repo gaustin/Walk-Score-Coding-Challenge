@@ -16,7 +16,7 @@ for line in fileinput.input():
 
     graph.addArc(pair[0], pair[1])
 
-processor.compressInPlace(graph)
+processor.minimizeInPlace(graph)
 
 for node, outArcs in graph.items():
     for arcTo in outArcs:
