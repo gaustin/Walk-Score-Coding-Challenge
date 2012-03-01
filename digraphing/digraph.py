@@ -2,6 +2,9 @@ class Digraph:
     def __init__(self):
         self.graph = dict()
 
+    def items(self):
+        return self.graph.items()
+
     def addArc(self, fromNode, toNode):
         if not self.graph.has_key(fromNode):
             self.graph[fromNode] = set() 
@@ -21,66 +24,20 @@ class Digraph:
         if self.graph.has_key(node):
             del self.graph[node]
 
-    def addOrUpdateNode(self, node, outArcs=None):
-        if outArcs is None:
-            outArcs = set()
-
-        if self.graph.has_key(node):
-            outArcs = outArcs.union(self.graph[node])
-
-        self.graph[node] = outArcs
-
-    def removeListOfNodes(self, listOfNodes=None):
-        if listOfNodes is None:
-            listOfNodes = list()
-
-        for node in listOfNodes:
-            self.removeNode(node)
-
-        for node, outArcs in self.graph.items():
-            outArcs.difference_update(listOfNodes)
- 
-    def compressInPlace(self):
-        prunedNodes = set()
-        for node, outArcs in self.graph.items():
-            print self.graph
-            in_arcs = self.inArcs(node)
-            if len(outArcs) == 1 and len(in_arcs) == 1:
-                fromArc = in_arcs.pop()
-                toArc = outArcs.copy().pop()
-                self.addArc(fromArc, toArc)
-                prunedNodes.add(node)
-
-        self.removeListOfNodes(prunedNodes)
-
-    def compress(self):
-        # Non-destructive
-        compressedGraph = Digraph()
-        prunedNodes = set()
-        for node, outArcs in self.graph.items():
-            in_arcs = self.inArcs(node)
-            if len(outArcs) == 1 and len(in_arcs) == 1:
-                prunedNodes.add(node)
-                fromArc = in_arcs.pop()
-                toArc = outArcs.copy().pop()
-                compressedGraph.addArc(fromArc, toArc) 
-            else:
-                arcs = outArcs.difference(prunedNodes)
-                compressedGraph.addOrUpdateNode(node, arcs)
-
-        # Remove all of the pruned nodes
-        compressedGraph.removeListOfNodes(prunedNodes) 
-
-        return compressedGraph
-
     def inArcs(self, targetNode):
         # Return all of the arcs pointing at this node
-        in_arcs = set()
+        inArcs = set()
         for node, outArcs in self.graph.items():
             if targetNode in outArcs:
-                in_arcs.add(node)
+                inArcs.add(node)
 
-        return in_arcs
+        return inArcs
+
+    def outArcs(self, targetNode):
+        if self.graph.has_key(targetNode):
+            return self.graph[targetNode]
+        else:
+            return set()
 
     def has_arc(self, fromNode, toNode):
         if not self.graph.has_key(fromNode):

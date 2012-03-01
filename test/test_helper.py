@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.abspath('..'))
 import unittest
 
 from digraphing import Digraph
+from digraphing import GraphProcessor
 
 def better_graph():
     # A B
@@ -44,5 +45,5 @@ def dummy_graph():
 class BaseTest(unittest.TestCase):
     def setUp(self):
         self.graph = dummy_graph()
-
+        self.gp = GraphProcessor()
 

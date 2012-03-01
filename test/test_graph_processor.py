@@ -1,29 +1,18 @@
 import test_helper
 import unittest
 
-class GraphProcessor(test_helper.BaseTest):
+from digraphing import GraphProcessor
+
 class GraphProcessorTests(test_helper.BaseTest):
     def testCompressDummyGraph(self):
-        compressedGraph = self.graph.compress()
+        self.gp.compressInPlace(self.graph)
 
-        self.assertTrue(compressedGraph.has_arc("A", "C"))
-        self.assertEqual(2, compressedGraph.nodeCount())
+        self.assertTrue(self.graph.has_arc("A", "C"))
+        self.assertEqual(2, self.graph.nodeCount())
 
-    def testCompressBetterGraph(self):
-        compressedGraph = test_helper.better_graph().compress()
-        
-        self.assertTrue(compressedGraph.has_arc("B", "D"))
-        self.assertTrue(compressedGraph.has_arc("D", "E"))
-        self.assertTrue(compressedGraph.has_arc("E", "F"))
-        self.assertTrue(compressedGraph.has_arc("E", "G"))
-        self.assertTrue(compressedGraph.has_arc("G", "H"))
-        self.assertTrue(compressedGraph.has_arc("G", "B"))
-
-        self.assertEqual(6, compressedGraph.nodeCount())
-  
     def testCompressBetterGraph(self):
         betterGraph = test_helper.better_graph()
-        betterGraph.compressInPlace()
+        self.gp.compressInPlace(betterGraph)
         
         self.assertTrue(betterGraph.has_arc("B", "D"))
         self.assertTrue(betterGraph.has_arc("D", "E"))

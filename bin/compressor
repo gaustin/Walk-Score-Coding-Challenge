@@ -6,18 +6,19 @@ import fileinput
 import os
 sys.path.insert(0, os.path.abspath('.'))
 
-from digraphing import Digraph
+from digraphing import Digraph, GraphProcessor
 
 graph = Digraph()
+processor = GraphProcessor()
 
 for line in fileinput.input():
     pair = line.strip().split("\t")
 
     graph.addArc(pair[0], pair[1])
 
-compressedGraph = graph.compress()
+processor.compressInPlace(graph)
 
-for node, outArcs in compressedGraph.graph.items():
+for node, outArcs in graph.items():
     for arcTo in outArcs:
         print "%s\t%s" % (node, arcTo)
 
